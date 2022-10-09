@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <script src="https://kit.fontawesome.com/d7431438a4.js" crossorigin="anonymous"></script>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: url(weather.jpg);
+        background-repeat: no-repeat;
+        
+        background-size: cover;
+    }
+
+    .container {
+        background-color: transparent;
+        padding: 10px;
+        width: 250px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        color: #fff;
+    }
+    .container::after {
+        background-color: rgb(15, 14, 15);
+        content: "";
+        opacity: 0.6;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: -1;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+.container div{
+    display: flex;
+}
+input{
+    width: 100%;
+    padding-left: 5px;
+    font-size: medium;
+}
+button{
+    width: 40px;
+    height:35px;
+    background-color: black;
+    color: white;
+}
+    .container::before {
+        position: absolute;
+        content: "WEATHER";
+        font-size: larger;
+        font-weight: 700;
+        background-color: rgb(210, 245, 251);
+        left: 0;
+        top: -45px;
+        /* margin-bottom: -20px; */
+        color: black;
+        width: 254px;
+        height: 30px;
+        text-align: center;
+        padding: 8px;
+        border-bottom: 1px solid black;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        z-index: -1;
+    }
+    #info{
+        text-align: left;
+        margin-top: 10px;
+        display: none;
+        padding: 0 5px;
+        color: rgb(255, 255, 255);
+    }
+    .decr{
+        text-align: center;
+        display: flex;
+        /* border: 2px solid black; */
+        align-items: center;
+        margin-top: 5px;
+        margin-bottom: -10px;
+    }
+    img{
+        width: 32px;
+        margin-left: -5px;
+    }
+    #info div{
+        margin-bottom: 10px;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div><input type="text" id="city" placeholder="Enter a city">
+        <button onclick=getdata();><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+    <section id="info">
+            <div class="cityname"><pre>Weather in </pre><span id="c-name">mumbai</span></div>
+            <span id="temp">32c</span>
+            <div class="decr"><img src="" id="image"><span id="sky">broken cloud</span></div>
+            <div>
+                humidity: <span id="hum">86%</span>
+            </div>
+            <div>Wind speed: <span id="ws">3 km/h</span></div>
+        </section>
+    </div>
+    <script>
+        let city = document.getElementById("c-name")
+        let temp = document.getElementById("temp")
+        let sky = document.getElementById("sky")
+        let humidity = document.getElementById("hum")
+        let windspeed = document.getElementById("ws")
+        let img = document.getElementById("image")
+
+        let info = document.getElementById("info")
+
+        let inputcity = document.getElementById("city");
+        let key = "c398e0678ba0a13ee752786f67bf137f"
+        function getdata() {
+            let url = `https://api.openweathermap.org/data/2.5/weather?q=${inputcity.value}&units=metric&appid=${key}`
+            // let img = `https://api.openweathermap.org/img/wn/+`
+            fetch(url)
+                .then(function (resp) {
+                    return resp.json();
+                })
+                .then(function (jsondata) {
+                    console.log(jsondata)
+                    // info.style.display="block";
+                    // let icon = jsondata.weather[0].icon;
+                   city.innerHTML=jsondata.name;
+                   temp.innerHTML= Math.floor(jsondata.main.temp)+"°C";
+                   sky.innerHTML = jsondata.weather[0].description;
+                   humidity.innerHTML = Math.floor(jsondata.main.humidity)+"%";
+                   windspeed.innerHTML =" " + Math.floor(jsondata.wind.speed)+" km/h";
+                   img.src = "https://api.openweathermap.org/img/w/"+jsondata.weather[0].icon +".png";
+                   info.style.display="block";
+
+                })
+                
+        }
+        inputcity.addEventListener("keyup", function(event){
+                    if (event.key == "Enter") {
+                        getdata();
+                    }
+                })
+    </script>
+</body>
+
+</html>
