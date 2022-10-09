@@ -22,7 +22,7 @@
         height: 100vh;
         background: url(weather.jpg);
         background-repeat: no-repeat;
-        
+
         background-size: cover;
     }
 
@@ -38,6 +38,7 @@
         position: relative;
         color: #fff;
     }
+
     .container::after {
         background-color: rgb(15, 14, 15);
         content: "";
@@ -51,20 +52,31 @@
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
     }
-.container div{
-    display: flex;
-}
-input{
-    width: 100%;
-    padding-left: 5px;
-    font-size: medium;
-}
-button{
-    width: 40px;
-    height:35px;
-    background-color: black;
-    color: white;
-}
+
+    .container div {
+        display: flex;
+    }
+
+    input {
+        width: 100%;
+        padding-left: 10px;
+        font-size: medium;
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+        border: none;
+        outline: none;
+    }
+
+    button {
+        width: 40px;
+        height: 35px;
+        background-color: black;
+        color: white;
+        border: none;
+        border-bottom-right-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
     .container::before {
         position: absolute;
         content: "WEATHER";
@@ -84,14 +96,16 @@ button{
         border-top-right-radius: 10px;
         z-index: -1;
     }
-    #info{
+
+    #info {
         text-align: left;
         margin-top: 10px;
         display: none;
         padding: 0 5px;
         color: rgb(255, 255, 255);
     }
-    .decr{
+
+    .decr {
         text-align: center;
         display: flex;
         /* border: 2px solid black; */
@@ -99,11 +113,13 @@ button{
         margin-top: 5px;
         margin-bottom: -10px;
     }
-    img{
+
+    img {
         width: 32px;
         margin-left: -5px;
     }
-    #info div{
+
+    #info div {
         margin-bottom: 10px;
     }
 </style>
@@ -111,16 +127,20 @@ button{
 <body>
     <div class="container">
         <div><input type="text" id="city" placeholder="Enter a city">
-        <button onclick=getdata();><i class="fa-solid fa-magnifying-glass"></i></button>
-    </div>
-    <section id="info">
-            <div class="cityname"><pre>Weather in </pre><span id="c-name">mumbai</span></div>
+            <button onclick=getdata();><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+        <section id="info">
+            <div class="cityname">
+                <pre>Weather in </pre><span id="c-name">mumbai</span>
+            </div>
             <span id="temp">32c</span>
             <div class="decr"><img src="" id="image"><span id="sky">broken cloud</span></div>
             <div>
-                humidity: <span id="hum">86%</span>
+                <pre>Humidity : </pre><span id="hum">86%</span>
             </div>
-            <div>Wind speed: <span id="ws">3 km/h</span></div>
+            <div>
+                <pre>Wind speed : </pre> <span id="ws">3 km/h</span>
+            </div>
         </section>
     </div>
     <script>
@@ -146,22 +166,22 @@ button{
                     console.log(jsondata)
                     // info.style.display="block";
                     // let icon = jsondata.weather[0].icon;
-                   city.innerHTML=jsondata.name;
-                   temp.innerHTML= Math.floor(jsondata.main.temp)+"°C";
-                   sky.innerHTML = jsondata.weather[0].description;
-                   humidity.innerHTML = Math.floor(jsondata.main.humidity)+"%";
-                   windspeed.innerHTML =" " + Math.floor(jsondata.wind.speed)+" km/h";
-                   img.src = "https://api.openweathermap.org/img/w/"+jsondata.weather[0].icon +".png";
-                   info.style.display="block";
+                    city.innerHTML = jsondata.name;
+                    temp.innerHTML = Math.floor(jsondata.main.temp) + "°C";
+                    sky.innerHTML = jsondata.weather[0].description;
+                    humidity.innerHTML = Math.floor(jsondata.main.humidity) + "%";
+                    windspeed.innerHTML = " " + Math.floor(jsondata.wind.speed) + " km/h";
+                    img.src = "https://api.openweathermap.org/img/w/" + jsondata.weather[0].icon + ".png";
+                    info.style.display = "block";
 
                 })
-                
+
         }
-        inputcity.addEventListener("keyup", function(event){
-                    if (event.key == "Enter") {
-                        getdata();
-                    }
-                })
+        inputcity.addEventListener("keyup", function (event) {
+            if (event.key == "Enter") {
+                getdata();
+            }
+        })
     </script>
 </body>
 
